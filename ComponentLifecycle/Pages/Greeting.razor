@@ -1,0 +1,23 @@
+@page "/greeting"
+<h1>Greeting</h1>
+@foreach (var item in _list)
+{
+    <p>@item</p>
+}
+
+@code {
+    private readonly List<string> _list = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        _list.Add("Welcome");
+
+        await Task.Delay(1000);
+        _list.Add("to");
+        StateHasChanged();
+
+        await Task.Delay(1000);
+        _list.Add("Blazor in Action");
+    }
+
+}

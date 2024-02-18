@@ -1,0 +1,30 @@
+@using BlazingTrails.Client.Models
+<div class="card shadow" style="width: 18rem;">
+    <img src="@Trails.Image" class="card-img-top"
+         alt="@Trails.Name">
+    <div class="card-body">
+        <button class="btn btn-primary" title="View" @onclick="@(async () => await OnSelected.InvokeAsync(Trails))">
+            <i class="bi bi-binoculars"></i>
+        </button>
+        <h5 class="card-title">@Trails.Name</h5>
+        <h6 class="card-subtitle mb-3 text-muted">
+            <span class="oi oi-map-marker"></span>
+            @Trails.Location
+        </h6>
+        <div class="d-flex justify-content-between">
+            <span>
+                <span class="oi oi-clock mr-2"></span>
+                @Trails.TimeFormatted
+            </span>
+            <span>
+                <spam class="oi oi-infinity mr-2"></spam>
+                @Trails.Length km
+            </span>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter, EditorRequired] public Trail Trails { get; set; } = default!;
+    [Parameter] public EventCallback<Trail> OnSelected { get; set; }
+}

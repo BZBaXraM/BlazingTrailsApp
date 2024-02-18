@@ -1,0 +1,45 @@
+@page "/"
+@using BlazingTrails.Client.Models
+@inject HttpClient Http
+
+<PageTitle>Brazing Trails</PageTitle>
+
+@if (_trails is null)
+{
+    <p>Loading trails...</p>
+}
+else
+{
+    <TrailDetails Trails="_selectedTrail"/>
+
+    <TrailSearch/>
+
+    <div class="grid">
+        @foreach (var item in _trails)
+        {
+            <TrailCard Trails="item" OnSelected="HandleTrailSelected"/>
+        }
+    </div>
+}
+
+
+@code {
+    private IEnumerable<Trail>? _trails;
+    private Trail? _selectedTrail;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            _trails = await Http.GetFromJsonAsync<IEnumerable<Trail>>("trails/trail-data.json");
+        }
+        catch (HttpRequestException e)
+        {
+            Console.WriteLine(e.Message);
+        }
+    }
+
+    private void HandleTrailSelected(Trail trails)
+        => _selectedTrail = trails;
+
+}
